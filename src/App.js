@@ -1,3 +1,5 @@
+
+
 import { useEffect, useState } from 'react';
 import './App.css';
 import Map from './Components/Map';
@@ -5,18 +7,24 @@ import Panel from './Components/Panel';
 import Preloader from './Components/Preloader';
 import arrow from './images/icon-arrow.svg';
 
-
-
 function App() {
   const [IP, setIP] = useState('')
-  const [address, setAddress] = useState (null) ;
+  const [address, setAddress] = useState(null);
+  const [load , setload] = useState('')
+
 
   useEffect(() => {
     async function ipTracker () {
       let res = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=at_tIa8PUbTTmWBfAkaLFsumCsCXmDS7&ipAddress=${IP}`);
       let data = await res.json();
       setAddress(data);
+      
     }  
+    try{
+
+    } catch (error) {
+      console.trace(error)
+    }
 
     ipTracker()
   }, [IP])
@@ -26,11 +34,15 @@ function App() {
      document.getElementById('text').value = '';
 
   }
+
     const enterPressed = (e) => {
       if(e.key === "Enter") {
         ipAddress()
       }
     }
+
+    window.addEventListener('load', setload('none'))
+
 
   return(
     <>
