@@ -4,13 +4,11 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Map from './Components/Map';
 import Panel from './Components/Panel';
-import Preloader from './Components/Preloader';
 import arrow from './images/icon-arrow.svg';
 
 function App() {
   const [IP, setIP] = useState('')
   const [address, setAddress] = useState(null);
-  const [load , setload] = useState('')
 
 
   useEffect(() => {
@@ -41,12 +39,9 @@ function App() {
       }
     }
 
-    window.addEventListener('load', setload('none'))
-
 
   return(
     <>
-      <Preloader loadState={load} />
       <div className='body'>
         <header>
           <h1>
