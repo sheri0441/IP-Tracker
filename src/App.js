@@ -1,38 +1,36 @@
-
 import { useEffect, useState } from 'react';
 import './App.css';
+import Map from './Components/Map';
 import Panel from './Components/Panel';
-// import Preloader from './Components/preloader';
 import Preloader from './Components/Preloader';
 import arrow from './images/icon-arrow.svg';
 
+
+
 function App() {
-  const [ip, setip] = useState('192.121.264.12')
-  const [location, setlocation] = useState('islamabad')
-  const [time, settime] = useState('+5:00')
-  const [isp, setisp] = useState('PTCL')
-  const [load, setload] = useState('')
- 
-  //   let datafile; 
-  //   async function ipTracker () {
-  //     let file = await fetch('https:geo.ipify.org/api/v2/country,city?apiKey=at_tIa8PUbTTmWBfAkaLFsumCsCXmDS7&ipAddress=');
-  //     let data = await file.json();
-  //     datafile = data;
-      
-  //     setip(datafile.ip);
-  //     setlocation(datafile.location.region);
-  //     settime(datafile.location.timezone);
-  //     setisp(datafile.isp);
-  //   }
+  const [IP, setIP] = useState('')
+  const [address, setAddress] = useState (null) ;
 
+  useEffect(() => {
+    async function ipTracker () {
+      let res = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=at_tIa8PUbTTmWBfAkaLFsumCsCXmDS7&ipAddress=${IP}`);
+      let data = await res.json();
+      setAddress(data);
+    }  
 
+    ipTracker()
+  }, [IP])
 
+  const ipAddress = () => {
+     setIP(document.getElementById('text').value);
+     document.getElementById('text').value = '';
 
-  window.addEventListener('load', () => {
-    setload('none')
-  })
-
-
+  }
+    const enterPressed = (e) => {
+      if(e.key === "Enter") {
+        ipAddress()
+      }
+    }
 
   return(
     <>
@@ -43,15 +41,18 @@ function App() {
             IP Address Tracker
           </h1>
           <div className='input-box'>
-            <input type='text' placeholder='Sreach for any IP Address or domain' />
-            <button><img src={arrow} alt='sreach button' /></button>
+            <input type='text' id='text' placeholder='Sreach for any IP Address or domain' onKeyPress={enterPressed} />
+            <button onClick={ipAddress}><img src={arrow} alt='sreach button' /></button>
           </div>
         </header>
-        <div className='map'>
-          <Panel ip={ip} location={location} isp={isp} time={time} />
-
-        </div>
-    </div>
+        {!(address === null) && 
+        <>
+          <div className='map'>
+            <Panel address={address}/>
+            <Map address={address} />
+          </div>
+        </>}
+      </div>
     </>
 
 )

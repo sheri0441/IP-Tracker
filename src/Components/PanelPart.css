@@ -1,14 +1,8 @@
-
-
-
 @media (max-width:899px) {
     .panel-part{
         text-align: center;
     }    
 }
-
-
-
 
 h2{
     color: var(--pc-dg-);
@@ -23,4 +17,3 @@ p{
     margin-top: 0.5rem;
     font-weight: 500;
 }
-

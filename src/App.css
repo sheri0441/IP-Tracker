@@ -39,6 +39,10 @@ input{
     width: 80%;
 }
 
+input:hover, button:hover{
+    cursor: pointer;
+}
+
 @media (min-width:900px) {
     input{
         width: 600px;

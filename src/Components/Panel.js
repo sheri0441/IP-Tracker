@@ -1,15 +1,15 @@
 import PanelPart from './PanelPart';
-
 import './Panel.css';
 
 
-function Panel (props) {
+function Panel ({address}) {
     return(
         <div className='panel'>
-            <PanelPart title={'IP Address'} value={props.ip} />
-            <PanelPart title={'Location'} value={props.location} />
-            <PanelPart title={'Timezone'} value={`UTC ${props.time}`} />
-            <PanelPart title={'ISP'} value={props.isp} />
+            <PanelPart title={'IP Address'} value={address.ip} />
+            <PanelPart title={'Location'} value={`${address.location.region},
+            ${address.location.city}`} />
+            <PanelPart title={'Timezone'} value={`UTC ${address.location.timezone}`} />
+            <PanelPart title={'ISP'} value={address.isp} />
         </div>
     )
 }
