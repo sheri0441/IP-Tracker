@@ -1,68 +1,97 @@
-
-
-import { useEffect, useState } from 'react';
-import './App.css';
-import Map from './Components/Map';
-import Panel from './Components/Panel';
-import arrow from './images/icon-arrow.svg';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Map from "./Components/Map";
+import Panel from "./Components/Panel";
+import arrow from "./images/icon-arrow.svg";
 
 function App() {
-  const [IP, setIP] = useState('')
-  const [address, setAddress] = useState(null);
-
+  const [addressData, setAddressData] = useState(null);
+  const [ipInput, setIpInput] = useState("");
+  const [ipAddress, setIpAddress] = useState("8.8.8.8");
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function ipTracker () {
-      let res = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=at_tIa8PUbTTmWBfAkaLFsumCsCXmDS7&ipAddress=${IP}`);
-      let data = await res.json();
-      setAddress(data);
-      
-    }  
-    try{
+    const myHeaders = new Headers();
+    myHeaders.append("apikey", "Your API key");
 
-    } catch (error) {
-      console.trace(error)
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+      headers: myHeaders,
+    };
+    try {
+      const getIP_Address = async () => {
+        const response = await fetch(
+          `https://api.apilayer.com/ip_to_location/${ipAddress}`,
+          requestOptions
+        );
+        const result = await response.json();
+        setAddressData(result);
+        setLoading(false);
+      };
+
+      getIP_Address();
+    } catch (e) {
+      console.log(e);
     }
+  }, [ipAddress]);
 
-    ipTracker()
-  }, [IP])
-
-  const ipAddress = () => {
-     setIP(document.getElementById('text').value);
-     document.getElementById('text').value = '';
-
-  }
-
-    const enterPressed = (e) => {
-      if(e.key === "Enter") {
-        ipAddress()
-      }
+  const updateIP_Address_by_enter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      updateIP_Address();
     }
+  };
 
+  const updateIP_Address = () => {
+    setIpAddress(ipInput);
+    setIpInput("");
+  };
 
-  return(
+  const ip_Handler = (e) => {
+    setIpInput(e.target.value);
+  };
+
+  return (
     <>
-      <div className='body'>
-        <header>
-          <h1>
-            IP Address Tracker
-          </h1>
-          <div className='input-box'>
-            <input type='text' id='text' placeholder='Sreach for any IP Address or domain' onKeyPress={enterPressed} />
-            <button onClick={ipAddress}><img src={arrow} alt='sreach button' /></button>
-          </div>
-        </header>
-        {!(address === null) && 
-        <>
-          <div className='map'>
-            <Panel address={address}/>
-            <Map address={address} />
-          </div>
-        </>}
-      </div>
+      {isLoading ? (
+        <h1 className="loading">Loading</h1>
+      ) : (
+        <div className="body">
+          <header>
+            <h1>IP Address Tracker</h1>
+            <div className="input-box">
+              <input
+                type="text"
+                id="text"
+                placeholder="Search for any IP Address"
+                value={ipInput}
+                onChange={ip_Handler}
+                onKeyDown={updateIP_Address_by_enter}
+              />
+              <button onClick={updateIP_Address}>
+                <img src={arrow} alt="Search button" />
+              </button>
+            </div>
+          </header>
+          {addressData !== null && Object.keys(addressData).length > 1 ? (
+            <div className="map">
+              <Panel address={addressData} />
+              <Map address={addressData} />
+            </div>
+          ) : (
+            <div className="errorMessage_Box">
+              <h2 className="errorMessage">
+                {addressData?.message}
+                <br />
+                Please try again.
+              </h2>
+            </div>
+          )}
+        </div>
+      )}
     </>
-
-)
+  );
 }
 
 export default App;

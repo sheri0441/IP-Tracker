@@ -1,64 +1,110 @@
-.body{
-    max-width: 1440px;
-    margin-inline: auto;
+.body {
+  max-width: 1440px;
+  margin-inline: auto;
 }
 
-
-header{
-    height: 35vh;
-    background-image: url('./images/pattern-bg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-align: center;
+header {
+  height: 35vh;
+  background-image: url("./images/pattern-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
 
-@media (min-width:900px) {
-    header{
-        height: 30vh;
-    }
+.loading {
+  color: black;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.input-box{
-    width: 80%;
-    margin-inline: auto;
+.loading::after {
+  content: ".";
+  color: black;
+  animation: loading 2s ease-in-out infinite;
 }
 
-h1{
-    color: white;
-    padding-top: 1rem;
-    font-weight: 700;
+@keyframes loading {
+  0% {
+    content: ".";
+  }
+  25% {
+    content: "..";
+  }
+  50% {
+    content: "...";
+  }
+  75% {
+    content: "..";
+  }
+  100% {
+    content: ".";
+  }
 }
 
-input{
-    padding: 0.75rem 1rem;
-    font-size: 1.125rem;
-    border: 1px solid var(--pc-vdg-);
-    border-top-left-radius: var(--br-);
-    border-bottom-left-radius: var(--br-);
-    margin-top: 1rem;
-    width: 80%;
+@media (min-width: 900px) {
+  header {
+    height: 30vh;
+  }
 }
 
-input:hover, button:hover{
-    cursor: pointer;
+.input-box {
+  width: 80%;
+  margin-inline: auto;
 }
 
-@media (min-width:900px) {
-    input{
-        width: 600px;
-    }
+h1 {
+  color: white;
+  padding-top: 1rem;
+  font-weight: 700;
 }
 
-input:focus{
-    outline: 1px solid var(--pc-vdg-);
+input {
+  padding: 0.75rem 1rem;
+  font-size: 1.125rem;
+  border: 1px solid var(--pc-vdg-);
+  border-top-left-radius: var(--br-);
+  border-bottom-left-radius: var(--br-);
+  margin-top: 1rem;
+  width: 80%;
 }
 
-button{
-    height: 47px;
-    background-color: black;
-    border: none;
-    border-top-right-radius: var(--br-);
-    border-bottom-right-radius: var(--br-);
-    padding-inline: 1rem;
+input:hover,
+button:hover {
+  cursor: pointer;
+}
 
+@media (min-width: 900px) {
+  input {
+    width: 600px;
+  }
+}
+
+input:focus {
+  outline: 1px solid var(--pc-vdg-);
+}
+
+button {
+  height: 47px;
+  background-color: black;
+  border: none;
+  border-top-right-radius: var(--br-);
+  border-bottom-right-radius: var(--br-);
+  padding-inline: 1rem;
+}
+
+.errorMessage_box {
+  position: relative;
+}
+
+.errorMessage {
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 2rem;
 }
